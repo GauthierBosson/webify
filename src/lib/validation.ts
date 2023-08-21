@@ -25,8 +25,16 @@ export const rowSchema = z.object({
   columns: z.array(columnSchema),
 }).optional()
 
+export const sectionSchema = z.object({
+  id: z.string().optional(),
+  type: z.enum(['header', 'main', 'aside', 'footer']),
+  name: z.string().max(255),
+  styles: z.array(styleSchema),
+  rows: z.array(rowSchema),
+}).optional()
+
 export const pageSchema = z.object({
   id: z.string().optional(),
   name: z.string().max(255),
-  rows: z.array(rowSchema),
+  sections: z.array(sectionSchema),
 })
