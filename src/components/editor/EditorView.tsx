@@ -14,7 +14,11 @@ const EditorView = forwardRef<HTMLIFrameElement>((_, ref) => {
     inputRef.current.contentWindow?.document.head.appendChild(cssBase)
   }, [inputRef])
 
-  return <iframe id='page-frame' allowFullScreen ref={inputRef} />
+  return (
+    <div className='flex-1'>
+      <iframe id='page-frame' allowFullScreen ref={inputRef} />
+    </div>
+  )
 })
 
 EditorView.displayName = 'EditorView'
