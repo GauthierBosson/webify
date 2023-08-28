@@ -46,9 +46,11 @@ export const sectionSchema = z
 
 export const pageSchema = z.object({
   id: z.string(),
-  name: z.string().max(255),
-  body: z.string().transform((val) => DOMPurify.sanitize(val)),
+  title: z.string().max(255),
+  content: z.string().transform((val) => DOMPurify.sanitize(val)),
 })
+
+export const newPageSchema = pageSchema.omit({ id: true })
 
 export const DomElementSchema = z.object({
   id: z.string(),
