@@ -1,12 +1,12 @@
-import { Button } from "../ui/button";
+import { Button } from '../ui/button'
 import { v4 as uuid } from 'uuid'
-import { pageSchema } from '@/lib/validation'
-import { Page } from "@/lib/types";
-import * as DOMPurify from 'dompurify'
+import { pageSchema, newPageSchema } from '@/lib/validation'
+import { Page, NewPage } from '@/lib/types'
+import { createPage } from './editor.actions'
 
 type Props = {
   iframeRef: React.MutableRefObject<HTMLIFrameElement | null>
-  setPage: React.Dispatch<React.SetStateAction<Page | undefined>>
+  setPage: React.Dispatch<React.SetStateAction<Page | NewPage | undefined>>
 }
 
 export default function EditorPanel({ iframeRef, setPage }: Props) {
@@ -23,8 +23,17 @@ export default function EditorPanel({ iframeRef, setPage }: Props) {
     newElement.setAttribute('data-webify-id', id)
     doc.body.appendChild(newElement)
 
-    const cleanDOM = pageSchema.parse({ name: '', body: doc.body.innerHTML })
+    const cleanDOM = newPageSchema.parse({
+      title: '',
+      content: doc.body.innerHTML,
+    })
     setPage(cleanDOM)
+  }
+
+  async function handleClick() {
+    const result = await createPage()
+
+    console.log(result)
   }
 
   return (
@@ -35,6 +44,7 @@ export default function EditorPanel({ iframeRef, setPage }: Props) {
       <Button>Add row</Button>
       <Button>Add column</Button>
       <Button>Add element</Button>
+      <Button onClick={() => handleClick()}>Add a new page to the database</Button>
     </div>
   )
 }

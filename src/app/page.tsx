@@ -1,6 +1,11 @@
 import Editor from '@/components/editor/Editor'
 
-export default function Home() {
+async function getPage() {}
+
+export default async function Home() {
+
+  const data = await getPage()
+
   return (
     <main>
       <Editor />
