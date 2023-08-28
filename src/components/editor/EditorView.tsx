@@ -1,25 +1,31 @@
-import { forwardRef, MutableRefObject, useEffect } from 'react'
+import { Page } from '@/lib/types'
+import { useCallback, forwardRef, MutableRefObject, useEffect } from 'react'
 
-const EditorView = forwardRef<HTMLIFrameElement>((_, ref) => {
-  const inputRef = ref as MutableRefObject<HTMLIFrameElement>
+const EditorView = forwardRef<HTMLIFrameElement, Partial<Page> | undefined>(
+  (page, ref) => {
+    const iframeRef = ref as MutableRefObject<HTMLIFrameElement>
 
-  useEffect(() => {
-    if (!inputRef.current) return
+    useEffect(() => {
+      if (!iframeRef.current) return
 
-    const cssBase = document.createElement('style')
-    cssBase.innerHTML = `body > [data-webify-id]:hover {
+      const cssBase = document.createElement('style')
+      cssBase.innerHTML = `body > [data-webify-id]:hover {
       outline: 1px dashed red;
       cursor: pointer;
     }`
-    inputRef.current.contentWindow?.document.head.appendChild(cssBase)
-  }, [inputRef])
+      iframeRef.current.contentWindow?.document.head.appendChild(cssBase)
 
-  return (
-    <div className='flex-1'>
-      <iframe id='page-frame' allowFullScreen ref={inputRef} />
-    </div>
-  )
-})
+      if (page?.content)
+        iframeRef.current.contentWindow?.document.body.append(page.content)
+    }, [])
+
+    return (
+      <div className='flex-1'>
+        <iframe id='page-frame' allowFullScreen ref={iframeRef} />
+      </div>
+    )
+  },
+)
 
 EditorView.displayName = 'EditorView'
 
