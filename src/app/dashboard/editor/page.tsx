@@ -3,7 +3,7 @@ import * as z from 'zod'
 import { pageSchema } from '@/lib/validation'
 
 async function getPage() {
-  const res = (
+  const res = await (
     await fetch(`${process.env.APP_URL}/dashboard/editor/api`)
   ).json()
 

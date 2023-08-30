@@ -1,10 +1,12 @@
 import { Page } from '@/lib/types'
 import { useCallback, forwardRef, MutableRefObject, useEffect } from 'react'
 
+// Not a normal use of Partial, but TS is complaining otherwise
 const EditorView = forwardRef<HTMLIFrameElement, Partial<Page> | undefined>(
   (page, ref) => {
     const iframeRef = ref as MutableRefObject<HTMLIFrameElement>
 
+    // TODO: Optimize this
     useEffect(() => {
       if (!iframeRef.current) return
 
@@ -15,8 +17,12 @@ const EditorView = forwardRef<HTMLIFrameElement, Partial<Page> | undefined>(
     }`
       iframeRef.current.contentWindow?.document.head.appendChild(cssBase)
 
+      console.log('page', page?.content)
+
       if (page?.content)
-        iframeRef.current.contentWindow?.document.body.append(page.content)
+        iframeRef.current.contentWindow?.document.body.appendChild(
+          document.createRange().createContextualFragment(page.content),
+        )
     }, [])
 
     return (

@@ -9,7 +9,7 @@ export async function GET() {
       },
     })
 
-    return NextResponse.json(page)
+    return NextResponse.json({ status: 200, data: page })
   } catch {
     return NextResponse.json({ status: 500, error: 'Something went wrong' })
   }

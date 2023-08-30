@@ -24,7 +24,7 @@ export default function EditorPanel({ iframeRef, setPage }: Props) {
     doc.body.appendChild(newElement)
 
     const cleanDOM = newPageSchema.parse({
-      title: '',
+      name: '',
       content: doc.body.innerHTML,
     })
     setPage(cleanDOM)

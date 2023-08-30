@@ -1,5 +1,4 @@
 import * as z from 'zod'
-import * as DOMPurify from 'dompurify'
 
 export const styleSchema = z
   .object({
@@ -44,17 +43,18 @@ export const sectionSchema = z
   })
   .optional()
 
-export const pageSchema = z.object({
-  id: z.string(),
-  title: z.string().max(255),
-  content: z.string().transform((val) => DOMPurify.sanitize(val)),
-})
-
-export const newPageSchema = pageSchema.omit({ id: true })
-
 export const DomElementSchema = z.object({
   id: z.string(),
   type: z.string(),
   parent: z.string().uuid().optional(),
   children: z.array(z.string().uuid()).optional(),
 })
+
+// TODO: Sanitize the content before saving it to the database
+export const pageSchema = z.object({
+  id: z.number(),
+  name: z.string().max(255),
+  content: z.string(),
+})
+
+export const newPageSchema = pageSchema.omit({ id: true })
