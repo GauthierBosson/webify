@@ -6,7 +6,7 @@ import { NewPage, Page } from '@/lib/types'
 import EditorPanel from './EditorPanel'
 
 export default function Editor({ item }: { item: Page | undefined }) {
-  const [page, setPage] = useState<Page | NewPage>()
+  const [page, setPage] = useState<Page | NewPage | undefined>()
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   useEffect(() => {

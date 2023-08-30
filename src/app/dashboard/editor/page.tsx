@@ -1,5 +1,4 @@
 import Editor from '@/components/editor/Editor'
-import * as z from 'zod'
 import { pageSchema } from '@/lib/validation'
 
 async function getPage() {

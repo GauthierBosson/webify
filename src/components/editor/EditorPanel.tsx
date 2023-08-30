@@ -27,6 +27,8 @@ export default function EditorPanel({ iframeRef, setPage }: Props) {
       name: '',
       content: doc.body.innerHTML,
     })
+
+    // replace this with an API call, eliminating the need for a state
     setPage(cleanDOM)
   }
 
